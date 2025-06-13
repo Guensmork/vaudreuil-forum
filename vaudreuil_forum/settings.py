@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 import dj_database_url
 import os
 from pathlib import Path
@@ -65,12 +68,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'vaudreuil_forum.wsgi.application'
 
 # --- Database ---
+import dj_database_url
+
 DATABASES = {
     'default': dj_database_url.config(
         conn_max_age=600,
-        ssl_require=True
+        ssl_require=True,
     )
 }
+
 
 
 # --- Password Validation ---
