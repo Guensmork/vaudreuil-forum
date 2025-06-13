@@ -1,0 +1,44 @@
+/* static/css/responsive.css */
+
+/* === MOBILE BREAKPOINT: Up to 768px === */
+@media (max-width: 768px) {
+
+  .container {
+    padding: 0.75rem;
+  }
+
+  .main {
+    padding: 1.5rem 1rem;
+  }
+
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .flex {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .header, .footer {
+    font-size: 1rem;
+    padding: 1rem 0.5rem;
+  }
+
+  .card {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .pagination a {
+    display: inline-block;
+    margin: 0.3rem 0.2rem;
+    font-size: 0.9rem;
+  }
+}

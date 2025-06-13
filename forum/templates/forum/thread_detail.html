@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card">
+  <h2>{{ thread.title }}</h2>
+  <p>
+    by <a href="{% url 'accounts:profile_detail' thread.creator.username %}">
+      {{ thread.creator.username }}
+    </a>
+    on {{ thread.created_at|date:"M d, Y H:i" }}
+  </p>
+</div>
+
+<div style="margin-top: 1.5rem;">
+  {% for post in page_obj %}
+    <div class="card" style="margin-bottom: 1.2rem;">
+      <p>
+        <strong>
+          <a href="{% url 'accounts:profile_detail' post.author.username %}">
+            {{ post.author.username }}
+          </a>
+        </strong> said:
+      </p>
+      <p>{{ post.content }}</p>
+      <p style="font-size: 0.85rem; color: gray;">
+        {{ post.created_at|date:"M d, Y H:i" }}
+      </p>
+    </div>
+  {% endfor %}
+</div>
+
+<!-- Pagination -->
+<div class="pagination" style="text-align: center; margin: 2rem 0;">
+  {% if page_obj.has_previous %}
+    <a href="?page=1" class="button small">&laquo; First</a>
+    <a href="?page={{ page_obj.previous_page_number }}" class="button small">Previous</a>
+  {% endif %}
+
+  <span style="margin: 0 1rem;">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}" class="button small">Next</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}" class="button small">Last &raquo;</a>
+  {% endif %}
+</div>
+
+<!-- Reply form -->
+{% if user.is_authenticated %}
+  <div class="card" style="max-width: 600px; margin: 0 auto;">
+    <h3>💬 Reply</h3>
+    <form method="post" style="margin-top: 1rem;">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="button">Post Reply</button>
+    </form>
+  </div>
+{% else %}
+  <div class="card" style="text-align: center;">
+    <p>
+      <a href="{% url 'login' %}">Log in</a> to post a reply.
+    </p>
+  </div>
+{% endif %}
+
+{% endblock %}

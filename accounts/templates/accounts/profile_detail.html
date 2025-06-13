@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if announcements %}
+  <div class="card" style="margin-bottom: 1.5rem;">
+    <h3>📢 Announcements</h3>
+    <ul style="list-style: none; padding-left: 0;">
+      {% for a in announcements %}
+        <li style="margin-bottom: 0.5rem;">
+          <strong>{{ a.title }}</strong>: {{ a.body }}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+<div class="card">
+  <h2>{{ profile_user.username }}'s Profile</h2>
+
+  {% if profile.profile_picture %}
+    <img src="{{ profile.profile_picture.url }}" alt="Profile Picture"
+         style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%; margin: 1rem 0;">
+  {% endif %}
+
+  <p><strong>Bio:</strong> {{ profile.bio|default:"No bio yet." }}</p>
+</div>
+
+<div class="grid-2" style="margin-top: 2rem;">
+  <div class="card">
+    <h3>🧵 Threads by {{ profile_user.username }}</h3>
+    <ul style="list-style: none; padding-left: 0;">
+      {% for thread in threads %}
+        <li style="margin-bottom: 0.5rem;">
+          <a href="{% url 'forum:thread_detail' thread.category.slug thread.slug %}">
+            {{ thread.title }}
+          </a> – {{ thread.created_at|date:"M d, Y H:i" }}
+        </li>
+      {% empty %}
+        <li>No threads yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>💬 Recent Posts</h3>
+    <ul style="list-style: none; padding-left: 0;">
+      {% for post in posts %}
+        <li style="margin-bottom: 0.5rem;">
+          {{ post.content|truncatechars:80 }}
+          in <a href="{% url 'forum:thread_detail' post.thread.category.slug post.thread.slug %}">
+            {{ post.thread.title }}
+          </a> – {{ post.created_at|date:"M d, Y H:i" }}
+        </li>
+      {% empty %}
+        <li>No posts yet.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

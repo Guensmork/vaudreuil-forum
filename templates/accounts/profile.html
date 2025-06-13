@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+  <h2>Your Profile</h2>
+
+  <p><strong>Name:</strong> {{ request.user.get_full_name }}</p>
+  <p><strong>Email:</strong> {{ request.user.email }}</p>
+  <p><strong>Bio:</strong> {{ request.user.profile.bio|default:"No bio added yet." }}</p>
+
+  {% if request.user.profile.website %}
+    <p>
+      <strong>Website:</strong>
+      <a href="{{ request.user.profile.website }}" target="_blank">
+        {{ request.user.profile.website }}
+      </a>
+    </p>
+  {% endif %}
+
+  {% if request.user.profile.avatar %}
+    <div style="margin: 1rem 0;">
+      <img src="{{ request.user.profile.avatar.url }}" alt="Your Avatar"
+           style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
+    </div>
+  {% endif %}
+
+  <a href="{% url 'edit_profile' %}" class="button">Edit Profile</a>
+</div>
+
+{% endblock %}

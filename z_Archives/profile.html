@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="card">
+    <h2>{{ user.username }}'s Profile</h2>
+    {% if profile.image %}
+      <img src="{{ profile.image.url }}" alt="Profile Picture" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;">
+    {% else %}
+      <p>No profile picture uploaded.</p>
+    {% endif %}
+
+    <p><strong>Bio:</strong> {{ profile.bio }}</p>
+    <p><strong>Website:</strong> <a href="{{ profile.website }}" target="_blank">{{ profile.website }}</a></p>
+
+    {% if request.user == user %}
+      <a href="{% url 'accounts:edit_profile' %}" class="button" style="margin-top: 1rem;">Edit Profile</a>
+    {% endif %}
+  </div>
+</div>

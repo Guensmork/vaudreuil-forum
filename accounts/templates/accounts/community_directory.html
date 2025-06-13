@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card">
+  <h2>👥 Community Directory</h2>
+  <p>Explore members of the Vaudreuil Forum.</p>
+</div>
+
+{% if users %}
+  <div class="card" style="margin-top: 1.5rem;">
+    <ul style="list-style: none; padding-left: 0;">
+      {% for user in users %}
+        <li class="flex" style="align-items: center; margin-bottom: 1rem;">
+          {% if user.profile.profile_picture %}
+            <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}"
+                 style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+          {% else %}
+            <span style="display: inline-block; width: 40px; height: 40px; background: #ccc; border-radius: 50%;"></span>
+          {% endif %}
+
+          <div style="margin-left: 1rem;">
+            <a href="{% url 'accounts:profile_detail' user.username %}" style="font-weight: bold;">
+              {{ user.username }}
+            </a>
+            {% if user.profile.bio %}
+              <div style="font-size: 0.9rem; color: var(--text);">
+                {{ user.profile.bio|truncatewords:10 }}
+              </div>
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% else %}
+  <div class="card" style="margin-top: 1.5rem;">
+    <p>No members found.</p>
+  </div>
+{% endif %}
+
+{% endblock %}

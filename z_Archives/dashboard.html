@@ -1,0 +1,23 @@
+<div class="container">
+  <h1>Welcome, {{ user.username }} 👋</h1>
+
+  <div class="flex" style="flex-wrap: wrap;">
+    <div class="card" style="flex: 1 1 300px;">
+      <h3>Your Posts</h3>
+      <p>{{ user.posts.count }} discussions started</p>
+      <a href="{% url 'forum:user_posts' user.username %}" class="button">View Posts</a>
+    </div>
+
+    <div class="card" style="flex: 1 1 300px;">
+      <h3>Profile</h3>
+      <p>Update your bio, picture, or links</p>
+      <a href="{% url 'accounts:edit_profile' %}" class="button">Edit Profile</a>
+    </div>
+
+    <div class="card" style="flex: 1 1 300px;">
+      <h3>New Post</h3>
+      <p>Start a new discussion</p>
+      <a href="{% url 'forum:new_post' %}" class="button">Create Post</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+/* static/css/layout.css */
+
+/* === PAGE CONTAINER === */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* === HEADER + FOOTER === */
+.header, .footer {
+  background: var(--accent);
+  color: var(--button-text);
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 6px var(--shadow);
+}
+
+.footer {
+  margin-top: 2rem;
+}
+
+/* === MAIN AREA === */
+.main {
+  padding: 2rem 1rem;
+}
+
+/* === FLEX & GRID UTILITIES === */
+.flex {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+/* === TEXT ALIGNMENT === */
+.text-center {
+  text-align: center;
+}

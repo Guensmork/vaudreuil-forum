@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card" style="max-width: 600px; margin: 2rem auto; text-align: center;">
+  <h1>👋 Welcome to Vaudreuil Forum</h1>
+
+  {% if user.is_authenticated %}
+    <p style="margin-top: 1rem;">Hello <strong>{{ user.username }}</strong>! Jump into the <a href="{% url 'forum:index' %}">discussions</a>.</p>
+  {% else %}
+    <p style="margin-top: 1rem;">
+      <a href="{% url 'login' %}" class="button">Login</a>
+      <br><br>
+      or
+      <br><br>
+      <a href="/admin/" class="button">Register (admin)</a>
+    </p>
+  {% endif %}
+</div>
+
+{% endblock %}

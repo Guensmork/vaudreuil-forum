@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+  <h2>📝 Start a New Thread in {{ category.name }}</h2>
+
+  <form method="post" style="margin-top: 1rem;">
+    {% csrf_token %}
+    
+    <fieldset style="margin-bottom: 1.5rem;">
+      <legend><strong>Thread Details</strong></legend>
+      {{ thread_form.as_p }}
+    </fieldset>
+
+    <fieldset style="margin-bottom: 1.5rem;">
+      <legend><strong>First Post</strong></legend>
+      {{ post_form.as_p }}
+    </fieldset>
+
+    <button type="submit" class="button">Create Thread</button>
+  </form>
+</div>
+
+{% endblock %}

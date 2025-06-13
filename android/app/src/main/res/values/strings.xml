@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Vaudreuil Forum</string>
+    <string name="title_activity_main">Vaudreuil Forum</string>
+    <string name="package_name">com.vaudreuil.forum</string>
+    <string name="custom_url_scheme">com.vaudreuil.forum</string>
+</resources>

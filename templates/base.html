@@ -1,0 +1,121 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vaudreuil Forum</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components.css' %}">
+  <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
+  <!-- Icons and Manifest -->
+  <link rel="icon" href="{% static 'icons/icon-192.png' %}">
+  <link rel="apple-touch-icon" href="{% static 'icons/icon-192.png' %}">
+  <link rel="manifest" href="{% static 'manifest.json' %}">
+  <meta name="theme-color" content="#004080">
+
+  <!-- PWA: Register service worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("{% static 'service-worker.js' %}")
+        .then(() => console.log("✅ PWA service worker registered"));
+    }
+  </script>
+</head>
+
+<body>
+
+  <!-- 📲 Install Button (always available) -->
+  <button id="install-btn" class="button" style="display: none; margin: 1em;">
+    📱 Install Vaudreuil Forum
+  </button>
+
+  <!-- 📢 Announcements -->
+  {% if global_announcements %}
+    <div style="background:#ffffe0; padding:1em; margin-bottom:1em; border:1px solid #ccc;">
+      <h3 style="margin-top: 0;">📢 Announcements</h3>
+      <ul style="list-style: none; padding-left: 0;">
+        {% for a in global_announcements %}
+          <li id="announcement-{{ a.id }}">
+            <strong>{{ a.title }}</strong>: {{ a.body }}
+            <button onclick="markRead('{{ a.id }}')" style="float:right;">Dismiss</button>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <script>
+      function markRead(id) {
+        fetch("{% url 'accounts:mark_announcement_read' 0 %}".replace(0, id), {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+          }
+        }).then(res => {
+          if (res.ok) {
+            document.getElementById(`announcement-${id}`).remove();
+          }
+        });
+      }
+    </script>
+  {% endif %}
+
+  <!-- 🌐 Navigation -->
+  <nav>
+    <a href="/">Home</a>
+    <a href="{% url 'accounts:community_directory' %}">Members</a>
+
+    {% if user.is_authenticated %}
+      <a href="{% url 'accounts:profile_detail' user.username %}">Profile</a>
+      <a href="{% url 'logout' %}">Logout</a>
+    {% else %}
+      <a href="{% url 'login' %}">Login</a>
+      <a href="{% url 'accounts:register' %}">Register</a>
+    {% endif %}
+
+    <form action="{% url 'logout' %}" method="post" style="display:inline;">
+      {% csrf_token %}
+      <button type="submit">Log out</button>
+    </form>
+
+    <!-- 🌗 Dark mode toggle -->
+    <label style="float: right;">
+      <input type="checkbox" id="theme-toggle"> 🌗 Dark Mode
+    </label>
+  </nav>
+
+  <!-- 🔲 Main content -->
+  <div class="content">
+    {% block content %}{% endblock %}
+  </div>
+
+  <!-- 🌓 Theme toggle logic -->
+  <script src="{% static 'css/theme-toggle.js' %}"></script>
+
+  <!-- 📲 PWA Install Logic -->
+  <script>
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+
+      const installBtn = document.getElementById('install-btn');
+      if (installBtn) {
+        installBtn.style.display = 'inline-block';
+        installBtn.addEventListener('click', () => {
+          installBtn.style.display = 'none';
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(() => {
+            deferredPrompt = null;
+          });
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
