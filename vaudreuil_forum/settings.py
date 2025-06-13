@@ -66,14 +66,21 @@ TEMPLATES = [
 # --- WSGI Application ---
 WSGI_APPLICATION = 'vaudreuil_forum.wsgi.application'
 
-# --- Database ---
-DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',  # fallback for local dev
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
+# --- Database (robust version) ---
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if DATABASE_URL and DATABASE_URL.startswith("postgres"):
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
+    }
+else:
+    # SQLite fallback without sslmode
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # --- Password Validation ---
 AUTH_PASSWORD_VALIDATORS = [
@@ -100,12 +107,12 @@ USE_SPACES = os.getenv("USE_SPACES", "False") == "True"
 
 if USE_SPACES:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+    AWS_ACCESS_KEY_ID = os.getenv("DO_SPACES_KEY")  # safer naming
+    AWS_SECRET_ACCESS_KEY = os.getenv("DO_SPACES_SECRET")
     AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
     AWS_S3_ENDPOINT_URL = os.getenv("AWS_S3_ENDPOINT_URL")
     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-    AWS_DEFAULT_ACL = 'public-read'  # Or set to None if you want private
+    AWS_DEFAULT_ACL = 'public-read'
     AWS_QUERYSTRING_AUTH = False
     AWS_LOCATION = ''
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_ENDPOINT_URL.replace("https://", "")}'
