@@ -1,0 +1,43 @@
+__pycache__/
+*.pyc
+".env" 
+"__pycache__/" 
+"*.pyc" 
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.so
+
+# Django stuff
+*.sqlite3
+db.sqlite3
+*.log
+
+# Environment variables
+.env
+
+# VS Code
+.vscode/
+
+# macOS & Windows
+.DS_Store
+Thumbs.db
+
+# PyCharm
+.idea/
+
+# Local development
+*.pot
+*.mo
+*.swp
+"__pycache__/" 
+"*.py[cod]" 
+"*.sqlite3" 
+"db.sqlite3" 
+"*.log" 
+".env" 
+".vscode/" 
+".DS_Store" 
+"Thumbs.db" 
+".idea/" 
