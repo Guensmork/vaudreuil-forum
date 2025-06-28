@@ -16,7 +16,7 @@ db.sqlite3
 
 # Environment variables
 .env
-
+venv/
 # VS Code
 .vscode/
 
@@ -26,6 +26,8 @@ Thumbs.db
 
 # PyCharm
 .idea/
+media/
+
 
 # Local development
 *.pot

@@ -1,6 +1,30 @@
-from django.contrib.auth.models import User
+from PIL import Image
 from django.db import models
-from django.utils.text import slugify
+from django.contrib.auth.models import User
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField("About Me", blank=True)
+    website = models.URLField("Website or Portfolio", blank=True)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    current_location = models.CharField("Where I'm participating from", max_length=100, blank=True)
+    motto = models.CharField("My Motto", max_length=255, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s profile"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if self.avatar:
+            avatar_path = self.avatar.path
+            img = Image.open(avatar_path)
+
+            max_size = (300, 300)  # Change to whatever standard you prefer
+
+            img.thumbnail(max_size, Image.LANCZOS)
+            img.save(avatar_path)
+
 
 class Announcement(models.Model):
     title = models.CharField(max_length=255)
@@ -12,7 +36,8 @@ class Announcement(models.Model):
 
     def __str__(self):
         return self.title
-    
+
+
 class AnnouncementRead(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     announcement = models.ForeignKey('Announcement', on_delete=models.CASCADE)
@@ -20,54 +45,3 @@ class AnnouncementRead(models.Model):
 
     class Meta:
         unique_together = ('user', 'announcement')
-
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(unique=True)
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.name
-
-class Thread(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='threads')
-    title = models.CharField(max_length=200)
-    slug = models.SlugField()
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='accounts_threads')
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ('category', 'slug')
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.title
-
-class Post(models.Model):
-    thread = models.ForeignKey(Thread, on_delete=models.CASCADE, related_name='posts')
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='accounts_posts')
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.author.username} on {self.thread.title}"
-
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(blank=True)
-    website = models.URLField(blank=True)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
-
-    def __str__(self):
-        return f"{self.user.username}'s profile"

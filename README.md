@@ -1,0 +1,13 @@
+- base
+- community_directory
+- create_thread
+- dashboard
+- edit_profile
+- home
+- index
+- logged_out
+- profile
+- profile_detail
+- register
+- thread_detail
+- thread_list

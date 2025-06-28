@@ -1,0 +1,23 @@
+<nav class="navbar">
+  <div class="nav-wrapper">
+    <a href="{% url 'home' %}" class="logo">Vaudreuil</a>
+
+    <input type="checkbox" id="menu-toggle" class="menu-toggle">
+    <label for="menu-toggle" class="menu-icon" aria-label="Toggle navigation">☰</label>
+
+    <ul class="nav-menu">
+      <li><a href="{% url 'forum:index' %}">Forum</a></li>
+      <li><a href="{% url 'accounts:community_directory' %}">Community</a></li>
+      <li><a href="{% url 'accounts:dashboard' %}">Dashboard</a></li>
+      <li><a href="{% url 'accounts:profile_detail' user.username %}">My Profile</a></li>
+      <li>
+        <form action="{% url 'logout' %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="button small" style="background:none; border:none; color:white; padding:0.5rem 1rem; cursor:pointer;">
+            Logout
+          </button>
+        </form>
+      </li>
+    </ul>
+  </div>
+</nav>
