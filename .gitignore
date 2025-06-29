@@ -28,6 +28,7 @@ Thumbs.db
 .idea/
 media/
 
+/vaudreuil-android/android/
 
 # Local development
 *.pot
