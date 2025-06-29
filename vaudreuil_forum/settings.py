@@ -81,10 +81,12 @@ USE_I18N = True
 USE_TZ = True
 
 # --- Static Files ---
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# --- Static Files ---
+import os
 
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # must be a string path
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # --- Media Files ---
