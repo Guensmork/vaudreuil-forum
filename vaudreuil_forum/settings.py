@@ -63,8 +63,13 @@ ASGI_APPLICATION = 'vaudreuil_forum.asgi.application'
 
 # --- Database (Render reads from DATABASE_URL) ---
 DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600)
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
+
 
 # --- Password Validation ---
 AUTH_PASSWORD_VALIDATORS = [
