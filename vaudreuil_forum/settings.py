@@ -6,11 +6,11 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # --- Security ---
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "your-local-dev-key")  # Use env variable for production
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "your-local-dev-key")
 DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 
-# --- Applications ---
+# --- Installed Apps ---
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -27,7 +27,7 @@ INSTALLED_APPS = [
 # --- Middleware ---
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Render: serve static files
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Serve static files on Render
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -57,21 +57,18 @@ TEMPLATES = [
     },
 ]
 
-# --- WSGI & ASGI ---
+# --- ASGI/WSGI ---
 WSGI_APPLICATION = 'vaudreuil_forum.wsgi.application'
 ASGI_APPLICATION = 'vaudreuil_forum.asgi.application'
 
+# --- Database (Render uses env variable DATABASE_URL) ---
 DATABASES = {
-    "default": dj_database_url.config(
-        default="postgresql://user:pass@host/dbname",  # overwritten by env
+    'default': dj_database_url.config(
+        default='postgresql://vaudreuil_db_user:9FTJR2PMLzu93Txz99MAu3YVeqeodsOh@dpg-d1gjnoqli9vc73aoe0lg-a.oregon-postgres.render.com/vaudreuil_db',
         conn_max_age=600,
         ssl_require=True
     )
 }
-
-if not DATABASES["default"] or "ENGINE" not in DATABASES["default"]:
-    raise Exception("DATABASE_URL is not set or improperly formatted!")
-
 
 # --- Password Validation ---
 AUTH_PASSWORD_VALIDATORS = [
@@ -88,11 +85,8 @@ USE_I18N = True
 USE_TZ = True
 
 # --- Static Files ---
-# --- Static Files ---
-import os
-
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # must be a string path
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # required by collectstatic
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -104,7 +98,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_REDIRECT_URL = 'accounts:dashboard'
 LOGOUT_REDIRECT_URL = 'login'
 
-# --- Default Auto Field ---
+# --- Default Primary Key Field ---
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # --- Logging ---
