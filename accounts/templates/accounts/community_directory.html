@@ -11,8 +11,8 @@
     <ul style="list-style: none; padding-left: 0;">
       {% for user in users %}
         <li class="flex" style="align-items: center; margin-bottom: 1rem;">
-          {% if user.profile.profile_picture %}
-            <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}"
+          {% if user.profile.avatar %}
+            <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}"
                  style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
           {% else %}
             <span style="display: inline-block; width: 40px; height: 40px; background: #ccc; border-radius: 50%;"></span>

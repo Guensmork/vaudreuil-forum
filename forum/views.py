@@ -21,7 +21,6 @@ def forum_index(request):
     categories = Category.objects.all()
     return render(request, 'forum/index.html', {'categories': categories})
 
-
 def thread_list(request, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
     threads = category.threads.order_by('-created_at')

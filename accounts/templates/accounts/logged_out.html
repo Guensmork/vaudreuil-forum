@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card" style="max-width: 500px; margin: 2rem auto; text-align: center;">
+  <h2>You’ve been logged out.</h2>
+  <p style="margin-top: 1rem;">
+    <a href="{% url 'login' %}" class="button">Log back in</a>
+    <br><br>
+    or
+    <br><br>
+    <a href="{% url 'accounts:register' %}" class="button">Create a new account</a>
+  </p>
+</div>
+
+{% endblock %}

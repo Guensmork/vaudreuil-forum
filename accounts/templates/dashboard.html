@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Welcome, {{ user.username }}!</h2>
+
+{% if announcements %}
+  <div style="background:#ffffe0; padding:1em; border:1px solid #ccc; margin-bottom: 1em;">
+    <h3>📢 Announcements</h3>
+    <ul>
+      {% for a in announcements %}
+        <li><strong>{{ a.title }}</strong>: {{ a.body }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+<hr>
+<h3>Your Recent Threads</h3>
+<ul>
+  {% for thread in my_threads %}
+    <li><a href="{% url 'forum:thread_detail' thread.category.slug thread.slug %}">{{ thread.title }}</a></li>
+  {% empty %}
+    <li>You haven’t created any threads yet.</li>
+  {% endfor %}
+</ul>
+
+<h3>Your Recent Posts</h3>
+<ul>
+  {% for post in my_posts %}
+    <li>{{ post.content|truncatewords:10 }} in
+      <a href="{% url 'forum:thread_detail' post.thread.category.slug post.thread.slug %}">
+        {{ post.thread.title }}
+      </a>
+    </li>
+  {% empty %}
+    <li>You haven’t posted anything yet.</li>
+  {% endfor %}
+</ul>
+
+<p><a href="{% url 'accounts:profile_detail' user.username %}">View your profile</a></p>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% include "includes/nav_profile.html" %}
+
+<div class="card" style="max-width: 700px; margin: 2rem auto; padding: 1.5rem;">
+  <h2 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 1rem;">Edit Your Profile</h2>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <fieldset style="margin-bottom: 2rem;">
+      <legend style="font-weight: bold; font-size: 1.1rem;">👤 Account Info</legend>
+      {{ user_form.as_p }}
+    </fieldset>
+
+    <fieldset style="margin-bottom: 2rem;">
+      <legend style="font-weight: bold; font-size: 1.1rem;">📄 Profile Details</legend>
+      {{ profile_form.as_p }}
+    </fieldset>
+
+    <button type="submit"
+            style="background-color: #2563eb; color: white; padding: 0.5rem 1.5rem; border: none; border-radius: 4px; cursor: pointer;">
+      💾 Save Changes
+    </button>
+  </form>
+</div>
+
+{% endblock %}

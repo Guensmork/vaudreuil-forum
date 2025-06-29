@@ -1,0 +1,20 @@
+<nav class="navbar">
+  <li>
+  <a href="https://vaudreuil-app-2ymd5.ondigitalocean.app/" target="_blank">
+    Vaudreuil App
+  </a>
+</li>
+
+  <div class="nav-wrapper">
+    <a href="{% url 'home' %}" class="logo">Vaudreuil</a>
+
+    <input type="checkbox" id="menu-toggle" class="menu-toggle">
+    <label for="menu-toggle" class="menu-icon" aria-label="Toggle navigation">☰</label>
+
+    <ul class="nav-menu">
+      <li><a href="{% url 'forum:index' %}">Forum</a></li>
+      <li><a href="{% url 'accounts:register' %}">Register</a></li>
+      <li><a href="{% url 'login' %}">Login</a></li>
+    </ul>
+  </div>
+</nav>
